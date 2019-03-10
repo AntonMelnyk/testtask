@@ -1,6 +1,6 @@
 package com.ratiose.testtask.repository;
 
-import com.ratiose.testtask.entity.User;
+import com.ratiose.testtask.entity.user.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long> {

@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @Configuration
-@ComponentScan
-@EnableAutoConfiguration
 public class TaskApplication {
 
     public static void main(String[] args) {

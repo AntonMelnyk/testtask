@@ -1,18 +1,14 @@
 package com.ratiose.testtask.controller;
 
-import com.ratiose.testtask.entity.User;
+import com.ratiose.testtask.entity.user.User;
+import com.ratiose.testtask.entity.UserDataDTO;
 import com.ratiose.testtask.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/user")
@@ -21,12 +17,44 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/register", method = POST)
-    public ResponseEntity registerUser(@RequestParam String email,
-                                               @RequestParam String password,
-                                               HttpSession session) {
-        if (userService.registerUser(email, password) != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+    @RequestMapping(value = "/registration", method = POST)
+    public ResponseEntity registerUser(@RequestBody
+                                       UserDataDTO userDataDTO) {
+
+        String email;
+        String pass;
+
+        if (userDataDTO != null) {
+            email = userDataDTO.getEmail();
+            pass = userDataDTO.getPassword();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        if (userService.registerUser(email, pass) != null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    @RequestMapping(value = "/{userId}/actor", method = PUT)
+    public ResponseEntity addFavActor(@PathVariable Long userId,
+                                      @RequestParam Long actorId) {
+
+        if (userService.addFavActor(userId, actorId)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+
+    @RequestMapping(value = "/{userId}/actor", method = DELETE)
+    public ResponseEntity deleteActor(@PathVariable Long userId,
+                                      @RequestParam Long actorId) {
+
+        if (userService.deleteActor(userId, actorId)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
