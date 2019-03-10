@@ -10,3 +10,28 @@ curl -X POST --data "email=test@test2.com&password=test" http://localhost:8080/u
 
 ### View popular movies
 curl -X POST --data "email=test@test2.com&password=test" http://localhost:8080/movie/popular/ -v
+
+Use any RESTClient for test
+### Add actor
+URL: http://localhost:8080/user/{userId}/actor?actorId=33
+Method: PUT
+Path variable 'userId' : id of user which adding actor
+Request param 'actorId': id of actor
+
+### Delete actor
+URL: http://localhost:8080/user/{userId}/actor?actorId=33
+Method: DELETE
+Path variable 'userId' : id of user which adding actor
+Request param 'actorId': id of actor
+
+### Mark movie as watched
+URL: http://localhost:8080/movie/{movieId}/watch
+Method: PUT
+Path variable 'movieId' : id of movie
+
+### Search movie by year and favorite actor in unwatched films
+URL: http://localhost:8080/movie/search?year=2019&actorName=Brad Pit&watched=false
+Method: GET
+Request param 'year' : year of movie's release
+Request param 'actorName' : name of actor
+Request param 'watched' : false - for unwatched movies
